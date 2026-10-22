@@ -68,7 +68,7 @@ const addTask = function () {
   const listItem = createNewTaskElement(taskInput.value);
 
   //Append listItem to incompleteTaskHolder
-  placeTaskInList(listItem, incompleteTaskHolder, taskCompleted);
+  placeTaskInList(listItem, incompleteTaskHolder, markTaskAsCompleted);
 
   taskInput.value = "";
 };
@@ -106,13 +106,13 @@ const deleteTask = function () {
 };
 
 //Mark task completed
-const taskCompleted = function () {
-  placeTaskInList(this.parentNode, completedTasksHolder, taskIncomplete);
+const markTaskAsCompleted = function () {
+  placeTaskInList(this.parentNode, completedTasksHolder, markTaskAsIncomplete);
 };
 
 //Mark task as incomplete
-const taskIncomplete = function () {
-  placeTaskInList(this.parentNode, incompleteTaskHolder, taskCompleted);
+const markTaskAsIncomplete = function () {
+  placeTaskInList(this.parentNode, incompleteTaskHolder, markTaskAsCompleted);
 };
 
 //Set the click handler to the addTask function.
@@ -128,7 +128,7 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
   editButton.onclick = editTask;
   //Bind deleteTask to delete button.
   deleteButton.onclick = deleteTask;
-  //Bind taskCompleted to checkBoxEventHandler.
+  //Bind markTaskAsCompleted to checkBoxEventHandler.
   checkBox.onchange = checkBoxEventHandler;
 };
 
@@ -136,13 +136,13 @@ const bindTaskEvents = function (taskListItem, checkBoxEventHandler) {
 //for each list item
 for (let i = 0; i < incompleteTaskHolder.children.length; i++) {
   //bind events to list items chldren(tasksCompleted)
-  bindTaskEvents(incompleteTaskHolder.children[i], taskCompleted);
+  bindTaskEvents(incompleteTaskHolder.children[i], markTaskAsCompleted);
 }
 
 //cycle over completedTasksHolder ul list items
 for (let i = 0; i < completedTasksHolder.children.length; i++) {
   //bind events to list items chldren(tasksIncompleted)
-  bindTaskEvents(completedTasksHolder.children[i], taskIncomplete);
+  bindTaskEvents(completedTasksHolder.children[i], markTaskAsIncomplete);
 }
 
 // Issues with usability don't get seen until they are in front of a human tester.
