@@ -53,14 +53,22 @@ const createNewTaskElement = function (taskString) {
   return listItem;
 };
 
+const placeTaskInList = function (
+  taskListItem,
+  targetList,
+  checkboxEventHandler,
+) {
+  targetList.appendChild(taskListItem);
+  bindTaskEvents(taskListItem, checkboxEventHandler);
+};
+
 const addTask = function () {
   //Create a new list item with the text from the #new-task:
   if (!taskInput.value) return;
   const listItem = createNewTaskElement(taskInput.value);
 
   //Append listItem to incompleteTaskHolder
-  incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
+  placeTaskInList(listItem, incompleteTaskHolder, taskCompleted);
 
   taskInput.value = "";
 };
@@ -99,19 +107,12 @@ const deleteTask = function () {
 
 //Mark task completed
 const taskCompleted = function () {
-  //Append the task list item to the #completed-tasks
-  const listItem = this.parentNode;
-  completedTasksHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskIncomplete);
+  placeTaskInList(this.parentNode, completedTasksHolder, taskIncomplete);
 };
 
+//Mark task as incomplete
 const taskIncomplete = function () {
-  //Mark task as incomplete.
-  //When the checkbox is unchecked
-  //Append the task list item to the #incompleteTasks.
-  const listItem = this.parentNode;
-  incompleteTaskHolder.appendChild(listItem);
-  bindTaskEvents(listItem, taskCompleted);
+  placeTaskInList(this.parentNode, incompleteTaskHolder, taskCompleted);
 };
 
 //Set the click handler to the addTask function.
